@@ -20,6 +20,8 @@ export const Home = () => {
 
     const navigate = useNavigate();
 
+    //Hey
+
     useEffect(() => {
         const handleScroll = () => {
             const scrollTop = window.scrollY;
