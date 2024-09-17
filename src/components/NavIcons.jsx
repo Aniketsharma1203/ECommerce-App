@@ -205,7 +205,6 @@ export const NavIcons = () => {
 
 
 
-
                 {/* Search Modal */}
                 {isSearch && (
                     <div className='fixed top-0 left-0 w-screen h-full bg-gray-100 z-50'>

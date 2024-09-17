@@ -22,6 +22,8 @@ export const Clothing = () => {
     const [hovered, setHovered] = useState(null);
     const [columns, setColumns] = useState('4');
     const [category, setCategory] = useState([]);
+    const [sortValue, setSortValue] = useState("");
+    const [filteredProducts, setFilteredProducts] = useState(products);
     const dispatch = useDispatch();
 
     const addToCart = (product) => {
@@ -30,19 +32,39 @@ export const Clothing = () => {
 
     const handleChange = (e) => {
         const { name, checked } = e.target;
-        console.log(name);
         if (checked) {
             setCategory([...category, name]);
-        }
-        else {
-            const categories = category.filter((e) => e !== name);
+        } else {
+            const categories = category.filter((item) => item !== name);
             setCategory(categories);
         }
-    }
-
-    const filteredProducts = products.filter((product) => category.length === 0 || category.includes(product.category));
+    };
 
     console.log(category);
+
+    const handleSort = (e) => {
+        const { value } = e.target;
+        setSortValue(value);
+    };
+
+    useEffect(() => {
+        let updatedProducts = products.filter((product) => category.length === 0 || category.includes(product.category));
+
+        // Handle sorting based on sortValue
+        if (sortValue === 'Z-A') {
+            updatedProducts = [...updatedProducts].sort((a, b) => b.title.localeCompare(a.title));
+        } else if (sortValue === 'A-Z') {
+            updatedProducts = [...updatedProducts].sort((a, b) => a.title.localeCompare(b.title));
+        } else if (sortValue === 'lo-hi') {
+            updatedProducts = [...updatedProducts].sort((a, b) => a.price - b.price);
+        } else if (sortValue === 'hi-lo') {
+            updatedProducts = [...updatedProducts].sort((a, b) => b.price - a.price);
+        }
+
+        setFilteredProducts(updatedProducts); // Update state after sorting/filtering
+    }, [category, sortValue]);
+
+
 
     return (
         <div>
@@ -192,11 +214,11 @@ export const Clothing = () => {
                         <div className='flex gap-2 text-center'>
                             <label htmlFor="sort">Sort by:</label>
 
-                            <select id="sort" className='flex gap-1 font-semibold opacity-100'>
-                                <option value="A-Z">Alphabetically, A-Z</option>
-                                <option value="Z_A">Alphabetically, Z-A</option>
+                            <select id="sort" className='flex gap-1 font-semibold opacity-100' onChange={handleSort}>
+                                <option value="A-Z" >Alphabetically, A-Z</option>
+                                <option value="Z-A" >Alphabetically, Z-A</option>
                                 <option value="lo-hi">Price, low to high</option>
-                                <option value="hi-lo">Price, high to low</option>
+                                <option value="hi-lo" >Price, high to low</option>
                             </select>
                         </div>
                     </div>
@@ -251,6 +273,6 @@ export const Clothing = () => {
 
             <Info />
             <Footer />
-        </div>
+        </div >
     )
 }
