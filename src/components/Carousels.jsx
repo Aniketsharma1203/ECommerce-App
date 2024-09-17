@@ -11,7 +11,7 @@ export const Carousels = () => {
                 showThumbs={false} 
                 interval={2000} 
                 showStatus={false} 
-                showIndicators={false} // Hides the indicators
+                showIndicators={false} 
             >
                 <div className='relative'>
                     <p className='absolute top-44 left-80 text-5xl h-16'>Stylish <br /> 
